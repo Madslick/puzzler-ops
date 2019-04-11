@@ -1,0 +1,13 @@
+- name: ensure git is install
+  yum:
+    name: git
+    state: present
+
+- name: ensure curl is install
+  yum:
+    name: curl
+    state: present
+
+- name: set system timezone
+  timezone:
+    name: "{{ timezone }}"

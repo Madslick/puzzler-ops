@@ -1,0 +1,15 @@
+---
+- name: ensure ansible is the latest
+  yum:
+    name: ansible
+    state: latest
+  register: ansible_updated
+
+- name: prompt user ansible has been upgraded, to rerun
+  debug:
+    msg: "Ansible has been upgraded, please re-run!"
+  when: ansible_updated.changed
+
+- name: stopping
+  meta: end_play
+  when: ansible_updated.changed

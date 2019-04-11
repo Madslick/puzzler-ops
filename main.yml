@@ -1,0 +1,4 @@
+---
+- hosts: falco1-host
+  roles:
+    - common
