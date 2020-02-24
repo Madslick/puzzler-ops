@@ -1,0 +1,9 @@
+---
+mariadb_dbs: []
+mariadb_users: 
+  - name: puzzler
+    password: puzzler
+    host: 127.0.0.1
+    priv: '*.*:ALL'
+mariadb_restart: false
+mariadb_root_password: '$ecret$auce'

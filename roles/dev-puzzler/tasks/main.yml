@@ -1,0 +1,33 @@
+---
+- name: ensure the puzzler group exists
+  group:
+    name: puzzler
+    
+- name: ensure the puzzler user exists
+  user:
+    name: puzzler
+    group: puzzler
+
+- name: check puzzler-cp checkout
+  shell: git status
+  args:
+    chdir: "{{ puzzler_home }}"
+  ignore_errors: yes
+  changed_when: false
+  register: git_status
+
+- name: pull puzzler-python from bitbucket
+  git:
+    repo: "https://github.com/Madslick/puzzler-python.git"
+    version: "{{ puzzler_version }}"
+    dest: "{{ puzzler_home }}"
+    force: no
+  changed_when: false
+  when: git_status.failed
+
+- name: install ui npms
+  command: sudo npm install --unsafe-perm
+  args:
+    chdir: "{{ puzzler_home }}/frontend"
+    warn: false
+  changed_when: false

@@ -1,11 +1,17 @@
-- name: ensure git is install
+---
+- name: ensure git is installed
   yum:
     name: git
     state: present
 
-- name: ensure curl is install
+- name: ensure curl is installed
   yum:
     name: curl
+    state: present
+
+- name: ensure nginx is installed
+  yum:
+    name: nginx
     state: present
 
 - name: set system timezone

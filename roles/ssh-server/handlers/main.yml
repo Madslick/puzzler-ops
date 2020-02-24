@@ -1,0 +1,4 @@
+---
+- name: restart ssh
+  set_fact:
+    ssh_service_restart: true

@@ -1,0 +1,60 @@
+---
+- name: ensure pip2 is installed
+  yum:
+    name: python-pip
+    state: present
+
+- name: ensure python-devel is installed
+  yum:
+    name: python-devel
+    state: present
+
+- name: ensure mysql-devel is installed
+  yum:
+    name: mysql-devel
+    state: present
+
+- name: ensure mysql-python is installed
+  pip:
+    name: mysql-python
+    state: present
+    executable: pip2
+
+- name: ensure gcc is installed
+  yum:
+    name: gcc
+    state: present
+
+- name: ensure python3 is installed
+  yum:
+    name: python36
+    state: present
+
+- name: ensure python3 pip is installed
+  yum:
+    name: python36-pip
+    state: present
+
+- name: ensure python36 devel is installed
+  yum:
+    name: python36-devel
+    state: present
+
+- name: ensure python3 django is installed
+  pip:
+    name: django
+    state: latest
+    executable: pip3.6
+
+- name: ensure python3-mysqldb is installed
+  pip:
+    name: mysqlclient
+    state: latest
+    executable: pip3.6
+
+- name: PyMySQL
+  pip:
+    name: PyMySQL
+    state: latest
+    executable: pip3.6
+

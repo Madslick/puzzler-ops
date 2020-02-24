@@ -1,4 +1,12 @@
 ---
 - hosts: falco1-host
   roles:
+    - ansible
     - common
+    - ssh-server
+    - epel
+    - python3
+    - mariadb
+    - node
+    - angular
+    - dev-puzzler

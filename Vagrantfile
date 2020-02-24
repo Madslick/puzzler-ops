@@ -26,6 +26,7 @@ Vagrant.configure("2") do |config|
   # NOTE: This will enable public access to the opened port
     config.vm.box = "centos/7"
     config.vm.network "forwarded_port", guest: 22, host: 2200, id: "ssh"
+    config.vm.network "forwarded_port", guest:3389, host:3388, id: "rdp"
     config.vm.synced_folder ".", "/vagrant"
 
     config.vm.provision :ansible_local do |ansible|
@@ -38,7 +39,7 @@ Vagrant.configure("2") do |config|
       ansible.become_user     = "root"
       ansible.extra_vars = {
 
-        }
+      }
     end
   end
   # Create a forwarded port mapping which allows access to a specific port

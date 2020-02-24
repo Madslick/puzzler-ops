@@ -1,0 +1,7 @@
+---
+- name: install angular
+  npm:
+    name: "@angular/cli"
+    version: 6.2.7
+    global: yes
+    state: present

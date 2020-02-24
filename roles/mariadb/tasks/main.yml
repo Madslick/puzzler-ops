@@ -1,0 +1,45 @@
+---
+- name: ensure openssh-server is install
+  yum:
+    name: mariadb-server
+    state: present
+
+- name: start and enable mariadb service
+  systemd:
+    name: mariadb
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+- name: update mysql root password for all root accounts
+  mysql_user:
+    name: root
+    login_host: 127.0.0.1
+    password: "{{ mariadb_root_password }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    check_implicit_admin: yes
+    priv: "*.*:ALL,GRANT"
+
+- name: create dbs
+  mysql_db:
+    name: "{{ item.name }}"
+    state: present
+    encoding: "utf8mb4"
+    collation: "utf8mb4_general_ci"
+  loop: "{{ mariadb_dbs }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: create users
+  mysql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    host: "{{ item.host }}"
+    priv: "{{ item.priv }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    state: present
+  loop: "{{ mariadb_users }}"
+  loop_control:
+    label: "{{ item.name }}@{{ item.host }}"

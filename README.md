@@ -1,0 +1,3 @@
+- Install latest Vagrant and VirtualBox
+- vagrant plugin install vagrant-vbguest
+- vagrant up

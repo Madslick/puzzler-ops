@@ -1,0 +1,55 @@
+---
+- name: ensure openssh-server is install
+  yum:
+    name: openssh-server
+    state: present
+
+- name: enable root login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin yes'
+  when: ssh_enable_root_login
+  notify: restart ssh
+
+- name: disable root login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin prohibit-password'
+  when: not ssh_enable_root_login
+  notify: restart ssh
+
+- name: enable password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: 'PasswordAuthentication yes'
+  when: ssh_enable_root_login
+  notify: restart ssh
+
+- name: disable password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+  when: not ssh_enable_root_login
+  notify: restart ssh
+
+- name: enable challenge response authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^ChallengeResponseAuthentication'
+    line: 'ChallengeResponseAuthentication yes'
+  when: ssh_enable_root_login
+  notify: restart ssh
+
+- name: flush handlers
+  meta: flush_handlers
+
+- name: wait for ssh server to be back online
+  wait_for:
+    host: "{{ ansible_default_ipv4.address }}"
+    port: 22
+    delay: 2
+  when: ssh_service_restart
